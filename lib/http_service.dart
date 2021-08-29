@@ -9,15 +9,9 @@ class HttpService {
         await http.get(Uri.parse("https://reqres.in/api/users?page=2"));
 
     if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
+      final body = jsonDecode(res.body);
 
-      List<User> users = body
-          .map(
-            (dynamic item) => User.fromJson(item),
-          )
-          .toList();
-
-      return users;
+      return List<User>.from(body['data'].map((e) => User.fromJson(e)));
     } else {
       throw "Unable to retrieve posts.";
     }
